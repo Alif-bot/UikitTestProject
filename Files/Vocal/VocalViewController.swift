@@ -7,12 +7,23 @@
 
 import UIKit
 
-final class VocalViewController: UIViewController {
+final class VocalViewController: UIViewController, UITableViewDelegate {
+    
+    let router: Router
     
     private let tableView = UITableView(frame: .zero, style: .plain)
     private var actionButtonsStack: UIStackView!
     
-    private let mockData = VocalModel.mock
+    private var mockData = VocalModel.mock
+    
+    init(router: Router) {
+        self.router = router
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +32,8 @@ final class VocalViewController: UIViewController {
         setupActionButtons()
         setupVocalLibraryLabel()
         setupTableView()
+        
+        tableView.delegate = self
     }
     
     private let vocalLibraryContainer: UIView = {
@@ -165,5 +178,24 @@ extension VocalViewController: UITableViewDataSource {
         ) as! VocalCell
         cell.configure(with: mockData[indexPath.row])
         return cell
+    }
+}
+
+extension VocalViewController {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Deselect row with animation
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        // Push details view controller
+        let selected = mockData[indexPath.row]
+        router
+            .pushVocalDetailsViewContoller(
+                name: selected.name,
+                genre: selected.genre,
+                imageURL: selected.imageURL
+            ) { newName in
+                self.mockData[indexPath.row].name = newName
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
     }
 }

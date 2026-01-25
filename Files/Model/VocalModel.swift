@@ -8,13 +8,13 @@
 import Foundation
 
 struct VocalModel {
-    let name: String
+    var name: String
     let genre: String
     let imageURL: String
 }
 
 extension VocalModel {
-    static let mock: [VocalModel] = [
+    static var mock: [VocalModel] = [
         .init(name: "Azek", genre: "hiphop, husky", imageURL: "https://randomuser.me/api/portraits/men/10.jpg"),
         .init(name: "Elara", genre: "pop, ethereal", imageURL: "https://randomuser.me/api/portraits/women/20.jpg"),
         .init(name: "Talia", genre: "country, sweet", imageURL: "https://randomuser.me/api/portraits/women/30.jpg"),
