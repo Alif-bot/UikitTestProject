@@ -12,10 +12,11 @@ final class VocalDetailsViewModel {
 
     // MARK: - State
     private(set) var name: String
+    
     let genre: String
     let imageURL: URL?
 
-    // MARK: - Outputs
+    // MARK: - Closure
     var onImageLoaded: ((UIImage) -> Void)?
     var onNameSaved: ((String) -> Void)?
 

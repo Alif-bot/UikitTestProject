@@ -19,10 +19,15 @@ final class VocalDetailsViewController: UIViewController {
         viewModel: VocalDetailsViewModel
     ) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+        super.init(
+            nibName: nil,
+            bundle: nil
+        )
     }
 
-    required init?(coder: NSCoder) {
+    required init?(
+        coder: NSCoder
+    ) {
         fatalError("")
     }
 
