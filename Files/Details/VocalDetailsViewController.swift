@@ -113,7 +113,11 @@ final class VocalDetailsViewController: UIViewController {
     private func configureData() {
         nameTextField.text = name
         genreLabel.text = genre
+        loadImage()
 
+    }
+    
+    private func loadImage() {
         if let url = URL(string: imageURL) {
             URLSession.shared.dataTask(with: url) { data, _, _ in
                 guard let data = data else { return }
