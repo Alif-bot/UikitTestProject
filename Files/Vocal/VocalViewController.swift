@@ -7,41 +7,148 @@
 
 import UIKit
 
-import UIKit
-
 final class VocalViewController: UIViewController {
-
-    private let tableView = UITableView()
-
-    private let mockData: [VocalModel] = [
-        .init(name: "Azek", genre: "Hip-hop, Husky"),
-        .init(name: "Elara", genre: "Pop, Ethereal"),
-        .init(name: "Talia", genre: "Country, Sweet"),
-        .init(name: "Bella", genre: "R&B, Powerful"),
-        .init(name: "James", genre: "Pop, Captivating")
-    ]
-
+    
+    private let tableView = UITableView(frame: .zero, style: .plain)
+    private var actionButtonsStack: UIStackView!
+    
+    private let mockData = VocalModel.mock
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Vocal"
-        view.backgroundColor = .black
+        setupBackground()
+        setupHeader()
+        setupActionButtons()
+        setupVocalLibraryLabel()
         setupTableView()
     }
+    
+    private let vocalLibraryContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
+    
+    private let vocalLibraryLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Vocal Library"
+        label.textColor = .white
+        label.font = .boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
+    private func setupBackground() {
+        let gradient = CAGradientLayer()
+        gradient.colors = [
+            UIColor(red: 20/255, green: 10/255, blue: 40/255, alpha: 1).cgColor,
+            UIColor.black.cgColor
+        ]
+        gradient.frame = view.bounds
+        view.layer.insertSublayer(gradient, at: 0)
+    }
+    
+    private func setupHeader() {
+        let titleLabel = UILabel()
+        titleLabel.text = "Vocal"
+        titleLabel.textColor = .white
+        titleLabel.font = .boldSystemFont(ofSize: 28)
+        
+        let subtitleLabel = UILabel()
+        subtitleLabel.text = "Create songs inspired by a reference vocal"
+        subtitleLabel.textColor = .lightGray
+        subtitleLabel.font = .systemFont(ofSize: 14)
+        
+        let closeButton = UIButton(type: .system)
+        closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        closeButton.tintColor = .white
+        closeButton.backgroundColor = UIColor.white.withAlphaComponent(0.15)
+        closeButton.layer.cornerRadius = 16
+        closeButton.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        
+        let headerStack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+        headerStack.axis = .vertical
+        headerStack.spacing = 8
+        
+        view.addSubview(headerStack)
+        view.addSubview(closeButton)
+        
+        headerStack.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            headerStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            headerStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            
+            closeButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+    }
+    
+    private func setupActionButtons() {
+        func makeButton(title: String, icon: String) -> UIButton {
+            let button = UIButton(type: .system)
+            button.setTitle("  \(title)", for: .normal)
+            button.setImage(UIImage(systemName: icon), for: .normal)
+            button.tintColor = .white
+            button.backgroundColor = UIColor.systemPurple.withAlphaComponent(0.7)
+            button.layer.cornerRadius = 14
+            button.heightAnchor.constraint(equalToConstant: 48).isActive = true
+            return button
+        }
+        
+        let upload = makeButton(title: "Upload Audio", icon: "music.note")
+        let youtube = makeButton(title: "Youtube Link", icon: "link")
+        
+        let stack = UIStackView(arrangedSubviews: [upload, youtube])
+        stack.spacing = 12
+        stack.distribution = .fillEqually
+        
+        actionButtonsStack = stack
+        view.addSubview(stack)
+        
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 120),
+            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+    }
 
+    private func setupVocalLibraryLabel() {
+        view.addSubview(vocalLibraryContainer)
+        vocalLibraryContainer.addSubview(vocalLibraryLabel)
+        
+        vocalLibraryContainer.translatesAutoresizingMaskIntoConstraints = false
+        vocalLibraryLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            vocalLibraryContainer.topAnchor.constraint(equalTo: actionButtonsStack.bottomAnchor, constant: 24),
+            vocalLibraryContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            vocalLibraryContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            vocalLibraryContainer.heightAnchor.constraint(equalToConstant: 48),
+            
+            vocalLibraryLabel.leadingAnchor.constraint(equalTo: vocalLibraryContainer.leadingAnchor, constant: 20),
+            vocalLibraryLabel.centerYAnchor.constraint(equalTo: vocalLibraryContainer.centerYAnchor)
+        ])
+    }
+    
     private func setupTableView() {
         tableView.backgroundColor = .black
         tableView.separatorStyle = .none
         tableView.register(VocalCell.self, forCellReuseIdentifier: VocalCell.identifier)
         tableView.dataSource = self
-
+        tableView.rowHeight = 72
+        
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.topAnchor.constraint(equalTo: vocalLibraryContainer.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
@@ -50,11 +157,8 @@ extension VocalViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         mockData.count
     }
-
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: VocalCell.identifier,
             for: indexPath
