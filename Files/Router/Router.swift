@@ -41,6 +41,9 @@ final class Router {
         )
 
         controller.onNameUpdate = onUpdate
+        controller.onComplete = { [weak self] in
+            self?.pop()
+        }
         push(controller: controller)
     }
 }

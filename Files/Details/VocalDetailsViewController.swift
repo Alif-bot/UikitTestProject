@@ -13,6 +13,7 @@ final class VocalDetailsViewController: UIViewController {
     private let viewModel: VocalDetailsViewModel
 
     var onNameUpdate: ((String) -> Void)?
+    var onComplete: (() -> Void)?
 
     init(
         viewModel: VocalDetailsViewModel
@@ -74,7 +75,11 @@ final class VocalDetailsViewController: UIViewController {
             message: "Name updated to \(name)",
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(
+            UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                self?.onComplete?()
+            }
+        )
         present(alert, animated: true)
     }
 }
