@@ -12,8 +12,11 @@ final class MyCreationViewController: UIViewController {
     private let collectionView: UICollectionView
     private let viewModel: MyCreationViewModel
 
-    init(viewModel: MyCreationViewModel) {
+    init(
+        viewModel: MyCreationViewModel
+    ) {
         self.viewModel = viewModel
+        
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 12
         layout.minimumLineSpacing = 12
@@ -25,7 +28,9 @@ final class MyCreationViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder: NSCoder) {
+    required init?(
+        coder: NSCoder
+    ) {
         fatalError()
     }
 
