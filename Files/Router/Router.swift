@@ -30,12 +30,17 @@ final class Router {
         imageURL: String,
         onUpdate: @escaping (String) -> Void
     ) {
-        let controller = VocalDetailsViewController(
+        let viewModel = VocalDetailsViewModel(
             name: name,
             genre: genre,
             imageURL: imageURL
         )
-        controller.onNameUpdate = onUpdate 
+
+        let controller = VocalDetailsViewController(
+            viewModel: viewModel
+        )
+
+        controller.onNameUpdate = onUpdate
         push(controller: controller)
     }
 }
