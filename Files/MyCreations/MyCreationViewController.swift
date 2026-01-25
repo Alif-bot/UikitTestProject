@@ -9,24 +9,34 @@ import UIKit
 
 final class MyCreationViewController: UIViewController {
 
-    private let collectionView: UICollectionView = {
+    private let collectionView: UICollectionView
+    private let viewModel: MyCreationViewModel
+
+    init(viewModel: MyCreationViewModel) {
+        self.viewModel = viewModel
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 12
         layout.minimumLineSpacing = 12
-        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - 36) / 2, height: 180)
-        return UICollectionView(frame: .zero, collectionViewLayout: layout)
-    }()
+        layout.itemSize = CGSize(
+            width: (UIScreen.main.bounds.width - 36) / 2,
+            height: 180
+        )
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        super.init(nibName: nil, bundle: nil)
+    }
 
-    private let mockData = CreationModel.mock
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "My Creations"
-        view.backgroundColor = .black
-        setupCollectionView()
+        setupUI()
     }
 
-    private func setupCollectionView() {
+    private func setupUI() {
+        title = "My Creations"
+        view.backgroundColor = .black
         collectionView.backgroundColor = .black
         collectionView.register(CreationCell.self, forCellWithReuseIdentifier: CreationCell.identifier)
         collectionView.dataSource = self
@@ -44,8 +54,12 @@ final class MyCreationViewController: UIViewController {
 }
 
 extension MyCreationViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        mockData.count
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        viewModel.numberOfItems()
     }
 
     func collectionView(
@@ -56,7 +70,14 @@ extension MyCreationViewController: UICollectionViewDataSource {
             withReuseIdentifier: CreationCell.identifier,
             for: indexPath
         ) as! CreationCell
-        cell.configure(with: mockData[indexPath.item])
+
+        let vm = viewModel.item(at: indexPath.item)
+        cell.configure(with: vm)
+
+        viewModel.loadImage(at: indexPath.item) { image in
+            cell.setImage(image)
+        }
+
         return cell
     }
 }

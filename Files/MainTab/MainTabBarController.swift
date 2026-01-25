@@ -18,7 +18,11 @@ class MainTabBarController: UITabBarController {
     
     private func setupTabs() {
         let creationViewController = UINavigationController(
-            rootViewController: MyCreationViewController()
+            rootViewController: MyCreationViewController(
+                viewModel: MyCreationViewModel(
+                    creations: CreationModel.mock
+                )
+            )
         )
         
         creationViewController.tabBarItem = UITabBarItem(
