@@ -7,42 +7,52 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController {
+final class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupAppearance()
         setupTabs()
+    }
+
+    private func setupAppearance() {
         tabBar.tintColor = .systemPink
         tabBar.barStyle = .black
     }
-    
+
     private func setupTabs() {
-        let creationViewController = UINavigationController(
-            rootViewController: MyCreationViewController(
-                viewModel: MyCreationViewModel(
-                    creations: CreationModel.mock
-                )
-            )
+        viewControllers = [
+            makeMyCreationsTab(),
+            makeVocalTab()
+        ]
+    }
+
+    private func makeMyCreationsTab() -> UIViewController {
+        let viewController = MyCreationViewController(
+            viewModel: MyCreationViewModel(creations: CreationModel.mock)
         )
-        
-        creationViewController.tabBarItem = UITabBarItem(
+
+        let navigation = UINavigationController(rootViewController: viewController)
+        navigation.tabBarItem = UITabBarItem(
             title: "My Creations",
             image: UIImage(systemName: "film"),
             tag: 0
         )
-        
-        let vocalNavigation = UINavigationController()
-        let vocalRouter = Router(navigation: vocalNavigation)
+        return navigation
+    }
 
-        let vocalViewController = VocalViewController(router: vocalRouter)
-        vocalNavigation.viewControllers = [vocalViewController]
+    private func makeVocalTab() -> UIViewController {
+        let navigation = UINavigationController()
+        let router = Router(navigation: navigation)
 
-        vocalNavigation.tabBarItem = UITabBarItem(
+        let viewController = VocalViewController(router: router)
+        navigation.viewControllers = [viewController]
+
+        navigation.tabBarItem = UITabBarItem(
             title: "Vocal",
             image: UIImage(systemName: "music.note"),
             tag: 1
         )
-
-        viewControllers = [creationViewController, vocalNavigation]
+        return navigation
     }
 }
