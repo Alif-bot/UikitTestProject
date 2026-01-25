@@ -17,12 +17,7 @@ final class MyCreationViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
 
-    private let mockData: [CreationModel] = [
-        .init(date: "Jan 24, 12:01 AM", status: "Completed"),
-        .init(date: "Jan 23, 11:58 PM", status: "Completed"),
-        .init(date: "Jan 23, 11:53 PM", status: "Completed"),
-        .init(date: "Jan 23, 11:51 PM", status: "Completed")
-    ]
+    private let mockData = CreationModel.mock
 
     override func viewDidLoad() {
         super.viewDidLoad()
