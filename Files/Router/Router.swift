@@ -10,7 +10,9 @@ import UIKit
 final class Router {
     let navigation: UINavigationController
     
-    init(navigation: UINavigationController) {
+    init(
+        navigation: UINavigationController
+    ) {
         self.navigation = navigation
     }
     

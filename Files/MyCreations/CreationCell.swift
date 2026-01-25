@@ -22,13 +22,17 @@ final class CreationCell: UICollectionViewCell {
     
     // MARK: - Init
     
-    override init(frame: CGRect) {
+    override init(
+        frame: CGRect
+    ) {
         super.init(frame: frame)
         setupUI()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(
+        coder: NSCoder
+    ) {
+        fatalError("")
     }
     
     private func setupUI() {

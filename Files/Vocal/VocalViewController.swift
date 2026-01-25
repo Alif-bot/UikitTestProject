@@ -16,9 +16,14 @@ final class VocalViewController: UIViewController, UITableViewDelegate {
     
     private var mockData = VocalModel.mock
     
-    init(router: Router) {
+    init(
+        router: Router
+    ) {
         self.router = router
-        super.init(nibName: nil, bundle: nil)
+        super.init(
+            nibName: nil,
+            bundle: nil
+        )
     }
     
     required init?(coder: NSCoder) {

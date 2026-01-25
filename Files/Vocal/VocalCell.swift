@@ -17,8 +17,14 @@ final class VocalCell: UITableViewCell {
     private let useButton = UIButton(type: .system)
     private let playButton = UIButton(type: .system)
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(
+        style: UITableViewCell.CellStyle,
+        reuseIdentifier: String?
+    ) {
+        super.init(
+            style: style,
+            reuseIdentifier: reuseIdentifier
+        )
         setupUI()
     }
 

@@ -19,15 +19,21 @@ final class VocalDetailsViewController: UIViewController {
     
     var onNameUpdate: ((String) -> Void)?
 
-    init(name: String, genre: String, imageURL: String) {
+    init(
+        name: String,
+        genre: String,
+        imageURL: String
+    ) {
         self.name = name
         self.genre = genre
         self.imageURL = imageURL
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(
+        coder: NSCoder
+    ) {
+        fatalError("")
     }
 
     override func viewDidLoad() {
