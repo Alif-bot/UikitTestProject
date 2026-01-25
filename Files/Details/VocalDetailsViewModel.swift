@@ -19,26 +19,29 @@ final class VocalDetailsViewModel {
     // MARK: - Closure
     var onImageLoaded: ((UIImage) -> Void)?
     var onNameSaved: ((String) -> Void)?
+    
+    // MARK: - Dependencies
+    private let imageLoader: ImageLoading
 
     init(
         name: String,
         genre: String,
-        imageURL: String
+        imageURL: String,
+        imageLoader: ImageLoading = ImageLoader()
     ) {
         self.name = name
         self.genre = genre
         self.imageURL = URL(string: imageURL)
+        self.imageLoader = imageLoader
     }
 
     func loadImage() {
         guard let url = imageURL else { return }
-
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
-            guard let data, let image = UIImage(data: data) else { return }
-            DispatchQueue.main.async {
-                self?.onImageLoaded?(image)
-            }
-        }.resume()
+        
+        imageLoader.loadImage(from: url) { [weak self] image in
+            guard let image else { return }
+            self?.onImageLoaded?(image)
+        }
     }
 
     func saveName(_ newName: String) {
