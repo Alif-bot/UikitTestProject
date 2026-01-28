@@ -46,4 +46,19 @@ final class Router {
         }
         push(controller: controller)
     }
+    
+    func pushPostDetailsViewController(posts: [Post]) {
+        let viewController = PostDetailsViewController(posts: posts)
+        push(controller: viewController)
+    }
+    
+    func pushCreatePostViewController() {
+        let viewController = CreatePostViewController()
+        push(controller: viewController)
+    }
+    
+    func pushUploadImageViewController() {
+        let viewController = UploadImageViewController()
+        push(controller: viewController)
+    }
 }

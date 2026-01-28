@@ -292,6 +292,7 @@
 				DEVELOPMENT_TEAM = MZDNY9Y7Q2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Files/SupportingFiles/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photos to upload images.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -320,6 +321,7 @@
 				DEVELOPMENT_TEAM = MZDNY9Y7Q2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Files/SupportingFiles/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photos to upload images.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

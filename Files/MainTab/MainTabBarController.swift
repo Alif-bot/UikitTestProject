@@ -23,7 +23,8 @@ final class MainTabBarController: UITabBarController {
     private func setupTabs() {
         viewControllers = [
             makeMyCreationsTab(),
-            makeVocalTab()
+            makeVocalTab(),
+            makePostTab()
         ]
     }
 
@@ -52,6 +53,21 @@ final class MainTabBarController: UITabBarController {
             title: "Vocal",
             image: UIImage(systemName: "music.note"),
             tag: 1
+        )
+        return navigation
+    }
+    
+    private func makePostTab() -> UIViewController {
+        let navigation = UINavigationController()
+        let router = Router(navigation: navigation)
+        
+        let viewController = PostViewController(router: router)
+        navigation.viewControllers = [viewController]
+        
+        navigation.tabBarItem = UITabBarItem(
+            title: "Post",
+            image: UIImage(systemName: "books.vertical"),
+            tag: 2
         )
         return navigation
     }
