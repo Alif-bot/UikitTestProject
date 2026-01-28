@@ -10,6 +10,8 @@ import UIKit
 final class VocalCell: UITableViewCell {
 
     static let identifier = "VocalCell"
+    
+    var onUseTapped: (() -> Void)?
 
     private let avatar = UIImageView()
     private let nameLabel = UILabel()
@@ -66,6 +68,8 @@ final class VocalCell: UITableViewCell {
         useButton.setContentHuggingPriority(.required, for: .horizontal)
         useButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         useButton.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        
+        useButton.addTarget(self, action: #selector(useTapped), for: .touchUpInside)
         
         // MARK: Play Button
         var playConfig = UIButton.Configuration.filled()
@@ -129,5 +133,10 @@ final class VocalCell: UITableViewCell {
         } else {
             avatar.image = nil
         }
+    }
+    
+    @objc
+    private func useTapped() {
+        onUseTapped?()
     }
 }

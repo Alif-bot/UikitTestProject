@@ -169,6 +169,45 @@ final class VocalViewController: UIViewController, UITableViewDelegate {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    private func presentUseSheet(for model: VocalModel) {
+        let sheetVC = UIViewController()
+        sheetVC.view.backgroundColor = .systemBackground
+        sheetVC.modalPresentationStyle = .pageSheet
+
+        // Half-sheet style
+        if let sheet = sheetVC.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 16
+        }
+
+        // Labels for singer name and genre
+        let nameLabel = UILabel()
+        nameLabel.text = model.name
+        nameLabel.font = .boldSystemFont(ofSize: 22)
+        nameLabel.textAlignment = .center
+
+        let genreLabel = UILabel()
+        genreLabel.text = model.genre
+        genreLabel.font = .systemFont(ofSize: 18)
+        genreLabel.textColor = .gray
+        genreLabel.textAlignment = .center
+
+        let stack = UIStackView(arrangedSubviews: [nameLabel, genreLabel])
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.alignment = .center
+
+        sheetVC.view.addSubview(stack)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: sheetVC.view.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: sheetVC.view.centerYAnchor)
+        ])
+
+        present(sheetVC, animated: true)
+    }
 }
 
 extension VocalViewController: UITableViewDataSource {
@@ -181,7 +220,12 @@ extension VocalViewController: UITableViewDataSource {
             withIdentifier: VocalCell.identifier,
             for: indexPath
         ) as! VocalCell
-        cell.configure(with: mockData[indexPath.row])
+        let model = mockData[indexPath.row]
+        cell.configure(with: model)
+        cell.onUseTapped = { [weak self] in
+            guard let self = self else { return }
+            self.presentUseSheet(for: model)
+        }
         return cell
     }
 }
